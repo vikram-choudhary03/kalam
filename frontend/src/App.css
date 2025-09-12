@@ -1,0 +1,56 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Gelasio&family=Inter:wght@400;500&display=swap');
+
+
+@import "tailwindcss";
+
+@import "@flaticon/flaticon-uicons/css/all/all"; /* Import all icons */
+
+
+@theme {
+  --color-gray : rgb(242, 242, 242);
+  --font-gelasio : "Gelasio", sans-serif;
+  --font-inter : "Inter", sans-serif; 
+}
+
+
+
+@layer components {
+
+  .navbar{
+    @apply sticky   z-10 top-0  flex border-b gap-12   border-gray px-[5vw] py-5 w-full  h-[80px] items-center bg-white;
+  }
+
+  .link {
+     @apply text-gray-500 hover:text-black hover:bg-gray p-3 px-4 block opacity-75;
+  }
+
+  .btn {
+    @apply rounded-full py-3 px-6  text-xl hover:opacity-75 whitespace-nowrap capitalize
+  }
+  .btn-dark {
+     @apply  text-white bg-black 
+  }
+  .btn-dark-two {
+    @apply rounded-full   text-white bg-black  py-3 px-6  text-xl hover:opacity-75 whitespace-nowrap capitalize
+
+  }
+  .btn-light {
+    @apply  bg-gray text-black ;
+  }
+  .h-cover{
+    @apply min-h-[calc(100vh-80px)];
+  }
+  .input-box{
+    @apply w-[100%] rounded-md p-4 bg-gray pl-12 border border-gray focus:bg-transparent  placeholder:text-black 
+    text-base
+  }
+  .input-icon {
+    @apply  absolute left-4 translate-y-1/2 top-1/8  ; 
+  }
+  .center {
+    @apply block  mx-auto 
+  }
+
+
+}
