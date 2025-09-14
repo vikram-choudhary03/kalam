@@ -54,3 +54,18 @@
 
 
 }
+
+
+ 
+
+.ce-block__content{
+  margin : 0 0 ; 
+  max-width : 100%;
+  overflow-wrap : break-word 
+
+}
+
+.ce-toolbar__actions{
+  position : absolute ;
+  right : 120% 
+}

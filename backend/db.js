@@ -102,8 +102,7 @@ const blogSchema = new mongoose.Schema({
 
     blog_id :{
         type : String, 
-        required : true , 
-        unique : true 
+        
     }, 
     title :{
         type : String, 
@@ -118,8 +117,8 @@ const blogSchema = new mongoose.Schema({
         maxlength : 200 
     }, 
     content :{
-        type :[] , 
-        // required : true
+        type : Object , 
+        required : true
     }, 
     tags :{
         type : [String], 

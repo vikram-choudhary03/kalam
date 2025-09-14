@@ -11,7 +11,7 @@ export const uploadImage = async (img)=>{
             url : uploadURL , 
             headers : {'Content-Type' : 'image/jpeg'},
             data : img
-
+        
         })
         .then (()=>{
             console.log(uploadURL) ; 

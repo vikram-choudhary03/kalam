@@ -6,9 +6,9 @@ import PublishForm from "../components/PublishForm";
 
 
 const blogStructure = {
-    title : ' ' , 
-    banner : ' ', 
-    content : [], 
+    title : localStorage.getItem('blogTitle') || '' , 
+    banner : localStorage.getItem('blogBanner') || ' ', 
+    content : JSON.parse(localStorage.getItem('blogContent') )|| {}, 
     tags : [], 
     des : '', 
     author : {personal_info : {}}
