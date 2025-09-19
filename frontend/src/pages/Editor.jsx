@@ -5,14 +5,14 @@ import BlogEditor from "../components/BlogEditor";
 import PublishForm from "../components/PublishForm";
 
 
-const blogStructure = {
+const blogStructure = ()=>({
     title : localStorage.getItem('blogTitle') || '' , 
     banner : localStorage.getItem('blogBanner') || ' ', 
     content : JSON.parse(localStorage.getItem('blogContent') )|| {}, 
     tags : [], 
-    des : '', 
+    des : JSON.parse(localStorage.getItem('blogContent')) || '', 
     author : {personal_info : {}}
-}
+})
 
 
 export const EditorContext = createContext({ }); 
@@ -20,7 +20,8 @@ export const EditorContext = createContext({ });
 export const Editor = ()=>{
 
     const [blog, setBlog] = useState(blogStructure) ; 
-
+    
+    
     
     const [editorState, setEditorState] =  useState("editor") ; 
 

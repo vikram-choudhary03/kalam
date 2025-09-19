@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom'
 import UserAuthform from './pages/UserAuthform'
 import { lookInsession } from './common/Sessions'
 import { Editor } from './pages/Editor'
+import PublishForm from './components/PublishForm'
 
 export const UserContext = createContext({}); 
 
@@ -28,12 +29,17 @@ function App() {
         <Route path="signin" element={<UserAuthform  type={"sign-in"}/>}/>
         <Route path="signup" element={<UserAuthform  type={"sign-up"}/>}/>
       </Route>
+    
     </Routes>
      </UserContext.Provider>
     </>
    
     
   )
+
+
+
+  
 }
 
 export default App

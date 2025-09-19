@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import Pageanimation from "../utils/Pageanimation";
 import defaultBanner from "../assets/blogbanner.png";
@@ -19,62 +19,54 @@ const BlogEditor = () => {
     setBlog,
   } = useContext(EditorContext);
 
+  let { editorState, setEditorState } = useContext(EditorContext);
   //useEffect
 
-  const editorRef = useRef();
+  const editorRef = useRef(null);
   useEffect(() => {
+    if (!editorRef.current) {
+      editorRef.current = new EditorJS({
+        holder: "textEditor",
+        data: content,
+        tools: tools,
+        placeholder: "Let's write an awesome story",
+        onChange: async () => {
+          let savedData = await editorRef.current.save();
+          setBlog({ ...blog, content: savedData }); // Update state
 
-    editorRef.current = new EditorJS({
-      holder: "textEditor",
-      data: content,
-      tools: tools,
-      placeholder: "Let's write an awesome story",
-      onChange :   async ()=>{
-        const savedData =    await editorRef.current.save();
-        setBlog((prevBlog) => ({...prevBlog, content:savedData})); // Update state
-        console.log(content);
-        localStorage.setItem('blogContent', JSON.stringify(savedData)); 
+          localStorage.setItem("blogContent", JSON.stringify(savedData));
+        },
+      });
+    }
+
+    return (()=>{
+      if(editorRef.current && editorRef.current.destroy){
+        editorRef.current.destroy(); 
+        editorRef.current = null  ; 
       }
-    });
+    })
 
-  
-
+    
   }, []);
 
-
-  useEffect(()=>{
-
-    localStorage.setItem('blogTitle', title )
-
-  }, [title])
-
-  useEffect(()=>{
-
-    localStorage.setItem('blogBanner', banner )
-
-  }, [blog])
-
-
-
-
-  const handleClickbutton = async () => {
+  useEffect(() => {
+    console.log("mount");
     
-    try { 
-      content = await editorRef.current.save();
-      setBlog({...blog, content}) ;
-      console.log(content);
-      const res = await axios.post("http://localhost:3000/create-blog", {
-        title, 
-        banner, 
-        content
-       
-      })
-
-      console.log(res.data); 
-
-    } catch (err) {
-      console.log("frontend :" + err )
+   
+    localStorage.setItem("blogTitle", title);
+    return ()=>{
+      console.log("unmount blogedior");
     }
+    
+  }, [title]);
+
+  useEffect(() => {
+    localStorage.setItem("blogBanner", banner);
+  }, [blog]);
+
+  const handleClickbutton = () => {
+    setBlog({...blog, des : content.blocks[0].data.text})
+    setEditorState("publish");
   };
 
   const handleBannerUpload = (e) => {
@@ -115,8 +107,8 @@ const BlogEditor = () => {
     input.style.height = "auto";
 
     input.style.height = input.scrollHeight + "px";
-
-    setBlog({ ...blog, title: input.value });
+    
+    setBlog({...blog, title: input.value});
   };
 
   const handleError = (e) => {
@@ -141,6 +133,7 @@ const BlogEditor = () => {
           <button className="btn-dark-two py-2 " onClick={handleClickbutton}>
             Publish
           </button>
+
           <button className="btn btn-light py-2">Save Draft</button>
         </div>
       </nav>
