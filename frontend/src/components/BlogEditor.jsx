@@ -62,12 +62,13 @@ const BlogEditor = () => {
 
   useEffect(() => {
     localStorage.setItem("blogBanner", banner);
-  }, [blog]);
+  }, [banner]);
 
   const handleClickbutton = () => {
     setBlog({...blog, des : content.blocks[0].data.text})
     setEditorState("publish");
   };
+
 
   const handleBannerUpload = (e) => {
     console.log(e.target);
@@ -118,6 +119,7 @@ const BlogEditor = () => {
     img.src = defaultBanner;
   };
 
+  console.log(blog);
   return (
     <>
       <nav className="navbar">

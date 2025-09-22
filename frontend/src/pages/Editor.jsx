@@ -5,41 +5,41 @@ import BlogEditor from "../components/BlogEditor";
 import PublishForm from "../components/PublishForm";
 
 
-const blogStructure = ()=>({
-    title : localStorage.getItem('blogTitle') || '' , 
-    banner : localStorage.getItem('blogBanner') || ' ', 
-    content : JSON.parse(localStorage.getItem('blogContent') )|| {}, 
-    tags : [], 
-    des : JSON.parse(localStorage.getItem('blogContent')) || '', 
-    author : {personal_info : {}}
-})
+    const blogStructure = ()=>({
+        title : localStorage.getItem('blogTitle') || '' , 
+        banner : localStorage.getItem('blogBanner') || ' ', 
+        content : JSON.parse(localStorage.getItem('blogContent') )|| {}, 
+        tags : [], 
+        des : '' , 
+        author : {personal_info : {}}
+    })
 
 
-export const EditorContext = createContext({ }); 
+    export const EditorContext = createContext({ }); 
 
-export const Editor = ()=>{
+    export const Editor = ()=>{
 
-    const [blog, setBlog] = useState(blogStructure) ; 
-    
-    
-    
-    const [editorState, setEditorState] =  useState("editor") ; 
+        const [blog, setBlog] = useState(blogStructure) ; 
+        
+        
+        
+        const [editorState, setEditorState] =  useState("editor") ; 
 
 
-    let {userAuth:{access_token}} = useContext(UserContext) ;
-    
+        let {userAuth:{access_token}} = useContext(UserContext) ;
+        
 
-    
-    return (
-        <EditorContext.Provider value = {{blog,setBlog, editorState, setEditorState}} >
-            {
-                  access_token === null  ? <Navigate to ="/signin" />
-                  :
-                  editorState == "editor" ? <BlogEditor/> : <PublishForm/>
-                            
-            } 
+        
+        return (
+            <EditorContext.Provider value = {{blog,setBlog, editorState, setEditorState}} >
+                {
+                    access_token === null  ? <Navigate to ="/signin" />
+                    :
+                    editorState == "editor" ? <BlogEditor/> : <PublishForm/>
+                                
+                } 
 
-        </EditorContext.Provider>
-      
-    )
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+            </EditorContext.Provider>
+        
+        )
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

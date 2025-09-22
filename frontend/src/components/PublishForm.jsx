@@ -1,19 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { EditorContext } from "../pages/Editor";
 import { UserContext } from "../App";
 
 const PublishForm = () => {
-
- 
   let { editorState, setEditorState } = useContext(EditorContext);
 
-  const handleEditorState = ()=>{
-    setEditorState("editor") ;
-  }
+  const handleEditorState = () => {
+    setEditorState("editor");
+  };
   return (
     <div className="grid  grid-cols-2 h-screen  relative">
-      <div className="absolute right-20 top-10 py-1 px-2  border-1 border-black " onClick={handleEditorState}>
-      <i class="fi fi-rr-cross" ></i>
+      <div
+        className="absolute right-20 top-10 py-1 px-2  border-1 border-black "
+        onClick={handleEditorState}
+      >
+        <i className="fi fi-rr-cross"></i>
       </div>
       <FirstCol></FirstCol>
       <SecondCol></SecondCol>
@@ -30,13 +31,13 @@ export const FirstCol = () => {
 
   let deslimit = 140;
   let tmpDesc = "";
-  console.log(des);
+
   const makeDesc = () => {
     let s = des;
 
     let i = 0;
-    console.log(des);
-    while (i < s.length && tmpDesc.length <= deslimit - 3) {
+
+    while (s.length != 0 && i < s.length && tmpDesc.length <= deslimit - 3) {
       if (s[i] == "<") {
         while (i < s.length && s[i] != ">") {
           i++;
@@ -47,15 +48,11 @@ export const FirstCol = () => {
 
       tmpDesc += s[i];
       i++;
-
-      console.log(tmpDesc);
-      tmpDesc = tmpDesc.replace(/&nbsp;/g, ' ');
-
     }
 
-    if (tmpDesc.length == deslimit - 3) {
-      tempDesc += "...";
-    }
+    tmpDesc = tmpDesc.replace(/&nbsp;/g, " ");
+
+    tmpDesc += "...";
   };
 
   makeDesc();
@@ -81,20 +78,59 @@ export const FirstCol = () => {
         </div>
         <hr className="w-full text-neutral-400 "></hr>
       </div>
-      
     </div>
   );
 };
 
 export const SecondCol = () => {
+  let {
+    userAuth,
+    userAuth: { fullname },
+  } = useContext(UserContext);
 
-  let {userAuth, userAuth : {fullname}} = useContext(UserContext);
-  console.log(userAuth) ; 
+  let {
+    blog,
+    blog: { title, banner, content, tags, des, author },
+    setBlog,
+  } = useContext(EditorContext);
 
-  const handleBlogPublish = ()=>{
-    console.log(userAuth); 
+  const [inputtags, setInputTags] = useState("");
+  const [isEntered , setIsEntered] = useState(false); 
+  const inputTagsRef = null;
+  const handleBlogPublish = () => {};
+
+  const handleChangeTags = (e) => {
+    setInputTags(e.target.value);
+    setIsEntered(false);
+  };
+
+  const handleKeyDownTags = (e) => {
+    
+    if (e.key == "Enter") {
+      let tmp = [];
+      tmp = tags;
+      tmp.push(inputtags);
+      console.log(blog);
+      setBlog({ ...blog, tags: tmp });
+
+      setInputTags("");
+      setIsEntered(true); 
+      // inputTagsRef.current = null ;
+    }
+  };
+
+  const handleTagsclick = (index)=>{
+   
+    let tmp = tags ; 
+    
+    tmp.splice(index, 1); 
+   
+
+    setBlog({...blog, tags: tmp}); 
+
 
   }
+ 
   return (
     <div className=" w-full  px-30 py-40">
       <div className="flex flex-col  w-full gap-4 justify-between">
@@ -106,12 +142,50 @@ export const SecondCol = () => {
           Add or change topics (up to 5) so readers know what your story is
           about
         </div>
-        <input
-          className="w-full p-5 text-md border-1 border-neutral-300"
-          placeholder="Add a topic..."
-        />
+        <div className=" px-6  border-1 border-neutral-400  max-w-full bg-neutral-50 flex items-center gap-2 space-between py-2 flex-wrap ">
+          {tags.length != 0 ? (
+            <div className=" flex gap-2 flex-wrap cursor-pointer    ">
+              {tags.map((tag, index) => {
+                return (
+                  <div className="flex gap-2 items-center  px-4 py-3 bg-white  border-1 border-neutral-300  hover:border-gray-500 " key={index}>
+                    <span  className=" ">
+                      {tag}
+                    </span>
+                    <button className="" onClick={()=> handleTagsclick(index)}>
+                    <i class="fi fi-rs-cross-small"></i>
+                    </button>
+                    
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )} 
+
+          {tags.length >= 5 ? (
+            ""
+          ) : (
+            <input
+              className=" min-w-0 flex-1 text-md placeholder:text-neutral-400 focus:outline-none   my-3"
+              placeholder="Add a topic..."
+              onChange={handleChangeTags}
+              onKeyDown={handleKeyDownTags}
+              value={inputtags}
+              ref={inputTagsRef}
+            />
+          )}
+
+          
+        </div>
+
         <div className="items-start flex ">
-          <button className="text-md px-4 py-2 text-white bg-[#1a8917] font-normal rounded-full "  onClick={handleBlogPublish}>Publish Now</button>
+          <button
+            className="text-md px-4 py-2 text-white bg-[#1a8917] font-normal rounded-full "
+            onClick={handleBlogPublish}
+          >
+            Publish Now
+          </button>
         </div>
       </div>
     </div>
