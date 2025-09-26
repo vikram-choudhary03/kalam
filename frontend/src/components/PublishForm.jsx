@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { EditorContext } from "../pages/Editor";
 import { UserContext } from "../App";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const PublishForm = () => {
   let { editorState, setEditorState } = useContext(EditorContext);
@@ -85,7 +87,7 @@ export const FirstCol = () => {
 export const SecondCol = () => {
   let {
     userAuth,
-    userAuth: { fullname },
+    userAuth: { fullname , access_token},
   } = useContext(UserContext);
 
   let {
@@ -94,10 +96,11 @@ export const SecondCol = () => {
     setBlog,
   } = useContext(EditorContext);
 
+  const navigate = useNavigate() ; 
   const [inputtags, setInputTags] = useState("");
   const [isEntered , setIsEntered] = useState(false); 
   const inputTagsRef = null;
-  const handleBlogPublish = () => {};
+  
 
   const handleChangeTags = (e) => {
     setInputTags(e.target.value);
@@ -128,6 +131,46 @@ export const SecondCol = () => {
 
     setBlog({...blog, tags: tmp}); 
 
+
+  }
+
+  const handleBlogPublish  =async ()=>{
+
+    try {
+      const res = await axios.post("http://localhost:3000/create-blog" , {
+        title, 
+        banner, 
+        content,
+        tags, 
+        des
+    }, {
+        headers : {
+          'Authorization': `Bearer ${access_token}`
+        }
+    })
+      
+      console.log(res.data) ; 
+      localStorage.removeItem('blogTitle');
+      localStorage.removeItem('blogBanner');
+      localStorage.removeItem('blogContent');
+
+
+      // setBlog({...blog, 
+      //   title : '', 
+      //   banner : defaultBanner, 
+      //   content : '', 
+      //   des : '', 
+      //   tags : []}
+      // )
+
+     navigate('/'); 
+    
+    }catch(err){
+      console.log(err.message);
+    }
+   
+
+    
 
   }
  
