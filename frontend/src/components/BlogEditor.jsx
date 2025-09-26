@@ -31,8 +31,10 @@ const BlogEditor = () => {
         tools: tools,
         placeholder: "Let's write an awesome story",
         onChange: async () => {
+          console.log("EditorJS onChange - current blog:", blog);
           let savedData = await editorRef.current.save();
-          setBlog({ ...blog, content: savedData }); // Update state
+          console.log("EditorJS onChange - setting content:", savedData);
+          setBlog(prvblog=>({ ...prvblog, content: savedData })); // Update state
 
           localStorage.setItem("blogContent", JSON.stringify(savedData));
         },
@@ -52,17 +54,18 @@ const BlogEditor = () => {
   useEffect(() => {
     console.log("mount");
     
-   
+    console.log("Title effect - title:", title);
+    console.log("Title effect - full blog:", blog);
     localStorage.setItem("blogTitle", title);
     return ()=>{
       console.log("unmount blogedior");
     }
     
-  }, [title]);
+  }, [blog]);
 
   useEffect(() => {
     localStorage.setItem("blogBanner", banner);
-  }, [banner]);
+  }, [blog]);
 
   const handleClickbutton = () => {
     setBlog({...blog, des : content.blocks[0].data.text})

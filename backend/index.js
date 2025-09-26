@@ -11,6 +11,7 @@ const { nanoid } = require("nanoid");
 const { getAuth } = require("firebase-admin/auth");
 
 const aws = require("aws-sdk");
+const verifyAuth = require("./authMiddleware");
 
 app.use(express.json()); //it parse the JSON data in request body, and make acessible to server routes handlers through req.body
 app.use(cors());
@@ -219,27 +220,62 @@ app.post("/google-auth", async (req, res) => {
     });
 });
 
-app.post("/create-blog", async (req, res) => {
+
+
+app.post("/create-blog", verifyAuth, async (req, res) => {
   try {
-    const { title, banner, content } = req.body;
+    
 
-    console.log(req.body);
-    const data = await Blog.create({
-      title,
-      banner,
-      content
-    });
+    const { title, banner, content, des, tags } = req.body;
+    
 
+    if(!title.length){
+      return res.status(403).json({err : "Must provide the title"})
+    }
+
+    if(!des.length  || des.length >200){
+      return res.status(403).json({err : " des.length is greater than 200"})
+    }
+
+    if(!banner.length){
+      return res.status(403).json({err : "banner should not be empty"})
+    }
+    try {
+      const numstring  = '0123456789' ; 
+      const blog_id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + nanoid() ; 
+      console.log(blog_id); 
+      const dbblog = await Blog.create( {
+        blog_id, 
+        author : req.id, 
+        ...req.body
+      });
+      
+      
+      const userdoc = await User.findByIdAndUpdate(req.id, {
+        $push: {
+          blogs: dbblog._id,
+        },
+      });
+  
+    }catch(err){
+      return res.status(422).json({
+        "err" : err.message
+      })
+    }
+    
+   
     return res.status(200).json({
-      msg: "blog successfully uploaded",
-      blog: data,
+      msg: "blog submitted successfully",
     });
-  }catch (err) {
-    return res.status(400).json({
-      error: err.message
+  } catch (err) {
+    return res.status(500).json({
+      err: err.message,
     });
   }
 });
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
