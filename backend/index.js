@@ -233,7 +233,7 @@ app.post("/create-blog", verifyAuth, async (req, res) => {
       return res.status(403).json({err : "Must provide the title"})
     }
 
-    if(!des.length  || des.length >200){
+    if(!des.length  ){
       return res.status(403).json({err : " des.length is greater than 200"})
     }
 
@@ -275,7 +275,25 @@ app.post("/create-blog", verifyAuth, async (req, res) => {
 });
 
 
+app.get("/get-blogs" , async (req, res) =>{
 
+  try {
+
+    const blogs = await Blog.find({}).populate({path : 'author' , select:'fullname username profile_img'});
+
+    
+    
+    console.log(blogs) ; 
+    
+    return res.status(200).json({
+       blogs
+    })
+  }catch(err){
+    return res.status(503).json({
+      "err" : err.message
+    })
+}
+})
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

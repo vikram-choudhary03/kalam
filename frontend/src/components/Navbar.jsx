@@ -31,10 +31,11 @@ const Navbar = () => {
   const {userAuth, userAuth : {access_token, profile_img }} = useContext(UserContext); 
   return (
     <>
-      <nav className="navbar">
+      <nav className="navbar fixed">
         <Link to="/" className="flex-none w-10 ">
           <img src={logo} className=" w-full " />
         </Link>
+
 
         <div
           className={
@@ -70,7 +71,7 @@ const Navbar = () => {
               <i className="fi fi-rr-bell text-xl  mt-1 r"></i>
               </button>
             </Link>
-
+            
             <div className=" relative  " onClick={handleUserNavPanel}  onBlur={handleBlur}>
               <button className="w-12 h-12 mt-1 bg-gray rounded-full ">
                   <img src={profile_img} className="center w-full h-full rounded-full "/>
@@ -84,7 +85,7 @@ const Navbar = () => {
             
           </>
           :
-          <>
+          <> 
             <Link className="btn btn-dark py-2" to="/signin">
             Sign in
           </Link>

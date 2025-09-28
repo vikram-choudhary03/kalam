@@ -18,7 +18,7 @@
 @layer components {
 
   .navbar{
-    @apply sticky   z-10 top-0  flex border-b gap-12   border-gray px-[5vw] py-5 w-full  h-[80px] items-center bg-white;
+    @apply sticky   z-10 top-0  flex border-b gap-12   border-gray  px-[5vw] py-5 w-full  h-[80px] items-center bg-white;
   }
 
   .link {

@@ -8,6 +8,7 @@ import UserAuthform from './pages/UserAuthform'
 import { lookInsession } from './common/Sessions'
 import { Editor } from './pages/Editor'
 import PublishForm from './components/PublishForm'
+import { Home } from './pages/Home'
 
 export const UserContext = createContext({}); 
 
@@ -25,7 +26,7 @@ function App() {
      <UserContext.Provider value={{userAuth, setUserAuth}}>
      <Routes>
       <Route  path="/editor"  element={<Editor/>} />
-      <Route path="/" element={<Navbar/>}>
+      <Route path="/" element={<Layout/>}>
         <Route path="signin" element={<UserAuthform  type={"sign-in"}/>}/>
         <Route path="signup" element={<UserAuthform  type={"sign-up"}/>}/>
       </Route>
@@ -40,6 +41,18 @@ function App() {
 
 
   
+}
+
+
+const Layout = ()=>{
+  return (
+    <div className=''>
+      <div className=''>
+        <Navbar/>
+        <Home/>
+      </div>
+    </div>
+  )
 }
 
 export default App

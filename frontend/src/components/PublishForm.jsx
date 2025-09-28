@@ -11,7 +11,7 @@ const PublishForm = () => {
     setEditorState("editor");
   };
   return (
-    <div className="grid  grid-cols-2 h-screen  relative">
+    <div className="grid  grid-cols-1 p-10 md:grid-cols-2 h-screen  relative">
       <div
         className="absolute right-20 top-10 py-1 px-2  border-1 border-black "
         onClick={handleEditorState}
@@ -60,7 +60,7 @@ export const FirstCol = () => {
   makeDesc();
 
   return (
-    <div className=" w-full  px-30 py-40 ">
+    <div className=" w-full  md:px-30 md:py-40 ">
       <div className="flex flex-col  w-full gap-4 justify-between">
         <h1 className="text-xl font-semibold tracking-tight font-inter -mb-4">
           Story Preview
@@ -68,7 +68,7 @@ export const FirstCol = () => {
         <div className="mt-4">
           <img
             src={banner}
-            className="w-full h-60 bg object-cover object-fit"
+            className="w-full  bg aspect-video"
           ></img>
         </div>
         <div className="font-gelasio text-xl font-extrabold mt text-wrap ">
@@ -175,13 +175,13 @@ export const SecondCol = () => {
   }
  
   return (
-    <div className=" w-full  px-30 py-40">
+    <div className=" w-full  md:px-30 md:py-40">
       <div className="flex flex-col  w-full gap-4 justify-between">
-        <div className="flex w-full gap-4  text-xl  tracking-tight font-inter">
+        <div className="flex w-full gap-4 text-lg md:text-xl  tracking-tight font-inter">
           <h1>Publishing: </h1>
           <h1 className="font-semibold">{fullname}</h1>
         </div>
-        <div>
+        <div className="text-md">
           Add or change topics (up to 5) so readers know what your story is
           about
         </div>
