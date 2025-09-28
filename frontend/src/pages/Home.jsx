@@ -3,6 +3,7 @@ import { UserContext } from "../App";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Audio, Bars, RotatingLines } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 export const Home = () => {
 
   let {
@@ -16,7 +17,7 @@ export const Home = () => {
       {access_token ? 
       <div className="grid  grid-cols-3  divide-x h-screen divide-gray ">
         <div className="col-span-2 px-[10vw]   ">
-          <div className="navbar   pl-0 pb-[0vw] border-b-1  border-gray top-20 ">
+          <div className="navbar   pl-0 pb-[0vw] border-b-1  border-gray border-1 top-20">
             <div className="flex items-center gap-20  text-gray-600  text-md  font-medium">
               <h2 className="hover:text-black">For you</h2>
               <h3 className="hover:text-black">Featured</h3>
@@ -35,8 +36,14 @@ export const Home = () => {
 const DisplayBlog = () => {
   const [data, setData] = useState([]);
   const [isloading, setIsLoading] = useState(true);
-  
+  const navigate  = useNavigate(); 
   const [color, setColor] = useState("#ffffff");
+  
+  let {
+    userAuth,
+    userAuth: { fullname, access_token, profile_img, username },
+  } = useContext(UserContext);
+
   useEffect(() => {
     const fetchdata = async () => {
       try {
@@ -56,18 +63,15 @@ const DisplayBlog = () => {
     fetchdata();
   }, []);
 
-  let {
-    userAuth,
-    userAuth: { fullname, access_token, profile_img, username },
-  } = useContext(UserContext);
-
-  console.log(userAuth);
-  console.log(data);
-
+  const handleBlogClick = (index)=>{
+    let blogId = data.blogs[index].blog_id ; 
+    navigate("/blog/"+blogId) ; 
+  }
   const override = {
     display: "block",
     margin: "14px auto",
   };
+
 
   if (isloading) {
     return (
@@ -87,16 +91,13 @@ const DisplayBlog = () => {
     );
   }
 
-  const handleBlogClick = (index)=>{
+  
 
-    
-    
-  }
   return (
     <div className="py-20 ">
       {data.blogs.map((blog, index) => (
-        <div >
-        <div className="grid grid-cols-3  py-10 cursor-pointer"  onClick={handleBlogClick(index)}>
+        <div key={index}>
+        <div className="grid grid-cols-3  py-10 cursor-pointer" onClick={()=>handleBlogClick(index)} >
           <div className="col-span-2 pr-10  space-y-6 ">
             <div className="flex items-center gap-4  w-full text-neutral-600 hover:text-black">
               <div className="h-6 w-6 rounded-full overflow-hidden border border-neutral-400 ">

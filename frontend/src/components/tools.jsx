@@ -8,8 +8,8 @@ import Quote from "@editorjs/quote";
 import Marker from "@editorjs/marker";
 import InlineCode from "@editorjs/inline-code";
 import { uploadImage } from "../common/aws";
-import SimpleImage from "@editorjs/simple-image";
-
+import CodeTool from '@editorjs/code';
+import Table from '@editorjs/table'
 const uploadImageByUrl = (e) => {
   let link = new Promise((resolve, reject) => {
     try {
@@ -71,4 +71,10 @@ export const tools = {
   },
   marker: Marker,
   inlineCode: InlineCode,
+  code : {
+    class: CodeTool
+  },
+  table : {
+    class :   Table 
+  }
 };

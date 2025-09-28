@@ -75,7 +75,7 @@ app.get("/get-upload-url", (req, res) => {
     });
 });
 
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
   const { fullname, email, password } = req.body;
 
   //validate data from frontend
@@ -105,10 +105,11 @@ app.post("/signup", (req, res) => {
     });
   }
 
+  const username = await generateUsername(email) ; 
   bcrypt.hash(password, 10, async (error, hashpassword) => {
-    const user = new User({ fullname, email, password: hashpassword });
+    const user = await new User({ fullname, email, password: hashpassword , username});
 
-    user
+     user
       .save()
       .then((user) => {
         return res.status(200).json(formatDatatoSend(user));
@@ -287,6 +288,27 @@ app.get("/get-blogs" , async (req, res) =>{
     
     return res.status(200).json({
        blogs
+    })
+  }catch(err){
+    return res.status(503).json({
+      "err" : err.message
+    })
+}
+})
+
+
+app.get("/blog/:blogId" , async (req, res) =>{
+ 
+  try {
+
+    const blogId =  req.params.blogId ; 
+    const blog = await Blog.findOne({blog_id : blogId}).populate({path : 'author' , select : 'fullname profile_img username'})
+    
+    
+    console.log(blog) ; 
+    
+    return res.status(200).json({
+       blog
     })
   }catch(err){
     return res.status(503).json({

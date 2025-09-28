@@ -3,12 +3,13 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
-import { Route, Routes } from 'react-router-dom'
+import { Outlet, Route, Routes } from 'react-router-dom'
 import UserAuthform from './pages/UserAuthform'
 import { lookInsession } from './common/Sessions'
 import { Editor } from './pages/Editor'
 import PublishForm from './components/PublishForm'
 import { Home } from './pages/Home'
+import { BlogPost } from './pages/BlogPost'
 
 export const UserContext = createContext({}); 
 
@@ -27,8 +28,11 @@ function App() {
      <Routes>
       <Route  path="/editor"  element={<Editor/>} />
       <Route path="/" element={<Layout/>}>
+        <Route index element={<Home/>} ></Route>
         <Route path="signin" element={<UserAuthform  type={"sign-in"}/>}/>
         <Route path="signup" element={<UserAuthform  type={"sign-up"}/>}/>
+        <Route path="blog/:blogId"  element={<BlogPost/>} />
+        
       </Route>
     
     </Routes>
@@ -47,10 +51,10 @@ function App() {
 const Layout = ()=>{
   return (
     <div className=''>
-      <div className=''>
         <Navbar/>
-        <Home/>
-      </div>
+        <Outlet/>
+        
+     
     </div>
   )
 }
