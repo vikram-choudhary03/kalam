@@ -61,9 +61,11 @@ export const tools = {
     class: Header,
     config: {
       placeholder: "Type Heading....",
-      levels: [2, 3],
-      defaultLevel: 2,
+      levels: [1,2,3,4,5,6],
+      defaultLevel: 3,
     },
+    inlineToolbar : true,
+    shortcut: 'CMD+SHIFT+H',
   },
   quote: {
     class: Quote,

@@ -12,6 +12,7 @@ const UserNavigationPanel = ()=>{
 
       removeFromsession("user"); 
       setUserAuth({acces_token : null}); 
+      localStorage.clear();
 
     }
     return (

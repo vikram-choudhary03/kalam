@@ -11,6 +11,7 @@
   --color-gray : rgb(242, 242, 242);
   --font-gelasio : "Gelasio", sans-serif;
   --font-inter : "Inter", sans-serif; 
+  
 }
 
 
@@ -68,4 +69,27 @@
 .ce-toolbar__actions{
   position : absolute ;
   right : 120% 
+}
+
+
+h1.ce-header{
+  /* font-size: 1.875rem; /* 30px */
+  /* line-height: 2.25rem; 36px */
+  /* font-weight: bold; */ 
+  @apply text-3xl font-bold
+}
+h2.ce-header{
+  @apply text-2xl font-semibold
+}
+h3.ce-header{
+  @apply text-xl font-semibold
+}
+h4.ce-header{
+  @apply text-lg font-semibold
+}
+h5.ce-header{
+  @apply text-base font-semibold
+}
+h6.ce-header{
+  @apply text-base font-semibold
 }
