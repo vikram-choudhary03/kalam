@@ -4,12 +4,21 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
+
+  
 const PublishForm = () => {
   let { editorState, setEditorState } = useContext(EditorContext);
+
+  
 
   const handleEditorState = () => {
     setEditorState("editor");
   };
+
+  
+
+  
   return (
     <div className="grid  grid-cols-1 p-10 md:grid-cols-2 h-screen  relative">
       <div
@@ -18,7 +27,7 @@ const PublishForm = () => {
       >
         <i className="fi fi-rr-cross"></i>
       </div>
-      <FirstCol></FirstCol>
+      <FirstCol  ></FirstCol>
       <SecondCol></SecondCol>
     </div>
   );
@@ -31,33 +40,8 @@ export const FirstCol = () => {
     setBlog,
   } = useContext(EditorContext);
 
-  let deslimit = 140;
-  let tmpDesc = "";
 
-  const makeDesc = () => {
-    let s = des;
-
-    let i = 0;
-
-    while (s.length != 0 && i < s.length && tmpDesc.length <= deslimit - 3) {
-      if (s[i] == "<") {
-        while (i < s.length && s[i] != ">") {
-          i++;
-        }
-        i++;
-        continue;
-      }
-
-      tmpDesc += s[i];
-      i++;
-    }
-
-    tmpDesc = tmpDesc.replace(/&nbsp;/g, " ");
-
-    tmpDesc += "...";
-  };
-
-  makeDesc();
+ 
 
   return (
     <div className=" w-full  md:px-30 md:py-40 ">
@@ -76,7 +60,7 @@ export const FirstCol = () => {
         </div>
         <hr className=" -mt-4 w-full text-neutral-400 "></hr>
         <div className="text-base text-[#000000ad] font-normal tracking-wide text-wrap my-2">
-          {tmpDesc}
+          {des}
         </div>
         <hr className="w-full text-neutral-400 "></hr>
       </div>
@@ -153,6 +137,7 @@ export const SecondCol = () => {
       localStorage.removeItem('blogTitle');
       localStorage.removeItem('blogBanner');
       localStorage.removeItem('blogContent');
+      // localStorage.removeItem('des');
 
 
       // setBlog({...blog, 

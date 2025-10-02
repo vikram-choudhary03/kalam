@@ -68,7 +68,17 @@ const BlogEditor = () => {
   }, [blog]);
 
   const handleClickbutton = () => {
-    setBlog({...blog, des : content.blocks[0].data.text})
+    const tmpDeshtml = content.blocks[0].data.text ; 
+    let plainDes = tmpDeshtml.replace(/<[^>]*>/g , ""); 
+    plainDes = plainDes.replace( /&nbsp;/g , "" ) ;
+    console.log("plain text : " + plainDes ) ; 
+
+    if(plainDes.length <=200){
+      setBlog({...blog, des : plainDes})
+    }else{
+      setBlog({...blog, des : plainDes.slice(0, 197)+"..."}) ; 
+    }
+    
     setEditorState("publish");
   };
 
@@ -130,7 +140,7 @@ const BlogEditor = () => {
           <img src={logo}></img>
         </Link>
 
-        <p className="max-md:hidden  text-black line-clamp-1 w-full bg-amber-200">
+        <p className="max-md:hidden  text-black line-clamp-1 w-full ">
           {title.length ? title : "New Blog"}
         </p>
 

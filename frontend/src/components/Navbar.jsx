@@ -39,7 +39,7 @@ const Navbar = () => {
 
         <div
           className={
-            "absolute  bg-blue-400   w-full  py-4  px-[5vw] top-full left-0  border-b border-gray mt-0.5    md:border-0   md:relative  md:inset-0 md:p-0 md:w-auto  " +
+            "absolute    w-full  py-4  px-[5vw] top-full left-0  border-b border-gray mt-0.5    md:border-0   md:relative  md:inset-0 md:p-0 md:w-auto  " +
             (!searchvisible ? "hidden md:block" : "block")
           }
         >
