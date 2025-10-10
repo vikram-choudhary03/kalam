@@ -47,7 +47,7 @@ const DisplayBlog = () => {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/get-blogs");
+        const res = await axios.get("https://kalam-backend-v2.onrender.com/get-blogs");
 
         if (!res.data) {
           return "err";

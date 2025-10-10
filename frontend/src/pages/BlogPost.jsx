@@ -9,7 +9,7 @@ export const BlogPost = () => {
   const { blogId } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/blog/${blogId}`)
+      .get(`https://kalam-backend-v2.onrender.com/blog/${blogId}`)
       .then((res) => {
         setBlogData(res.data);
         setIsLoading(false);

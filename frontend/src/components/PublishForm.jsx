@@ -121,7 +121,7 @@ export const SecondCol = () => {
   const handleBlogPublish  =async ()=>{
 
     try {
-      const res = await axios.post("http://localhost:3000/create-blog" , {
+      const res = await axios.post("https://kalam-backend-v2.onrender.com/create-blog" , {
         title, 
         banner, 
         content,
