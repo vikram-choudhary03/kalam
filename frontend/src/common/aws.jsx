@@ -3,7 +3,7 @@ export const uploadImage = async (img)=>{
 
     let imgUrl = null ; 
 
-    await axios.get("https://kalam-backend-v2.onrender.com/get-upload-url")
+    await axios.get("https://kalam-backend-l56d.onrender.com/get-upload-url")
     .then(async ({data : {uploadURL}}) =>{
 
          await axios({
