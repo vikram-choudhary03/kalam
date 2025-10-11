@@ -1,15 +1,26 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { data, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
+import { UserContext } from "../App";
 
 export const BlogPost = () => {
   const [blogData, setBlogData] = useState({});
   const [isloading, setIsLoading] = useState(true);
   const { blogId } = useParams();
+
+  let {
+      userAuth,
+      userAuth: { fullname, access_token, profile_img, username },
+    } = useContext(UserContext);
+  
   useEffect(() => {
     axios
-      .get(`https://kalam-backend-l56d.onrender.com/blog/${blogId}`)
+      .get(`http://localhost:3000/blog/${blogId}` , {
+        headers : {
+          Authorization : `Bearer ${access_token}`
+        }
+      })
       .then((res) => {
         setBlogData(res.data);
         setIsLoading(false);

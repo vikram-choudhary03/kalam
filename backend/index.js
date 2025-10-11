@@ -12,9 +12,10 @@ const { getAuth } = require("firebase-admin/auth");
 
 const aws = require("aws-sdk");
 const verifyAuth = require("./authMiddleware");
-
-app.use(express.json()); //it parse the JSON data in request body, and make acessible to server routes handlers through req.body
+const authMiddleware = require("./authMiddleware");
 app.use(cors());
+app.use(express.json()); //it parse the JSON data in request body, and make acessible to server routes handlers through req.body
+
 
 const PORT = 3000;
 
@@ -276,9 +277,10 @@ app.post("/create-blog", verifyAuth, async (req, res) => {
 });
 
 
-app.get("/get-blogs" , async (req, res) =>{
+app.get("/get-blogs" , authMiddleware,   async (req, res) =>{
 
   try {
+
 
     const blogs = await Blog.find({}).populate({path : 'author' , select:'fullname username profile_img'});
 
@@ -297,7 +299,7 @@ app.get("/get-blogs" , async (req, res) =>{
 })
 
 
-app.get("/blog/:blogId" , async (req, res) =>{
+app.get("/blog/:blogId" ,authMiddleware,  async (req, res) =>{
  
   try {
 

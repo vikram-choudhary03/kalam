@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'); 
 require('dotenv').config(); 
 
-mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.hjzcu.mongodb.net/kalam`); 
+ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.hjzcu.mongodb.net/kalam`); 
 
 
 

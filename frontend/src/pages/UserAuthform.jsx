@@ -77,7 +77,7 @@ const UserAuthform = ({type})=>{
 
     const tosenduserformdata = (serverRoute, formData)=>{
 
-        axios.post("https://kalam-backend-l56d.onrender.com"+serverRoute , formData)
+        axios.post("http://localhost:3000"+serverRoute , formData)
         .then(({data})=>{
            storeInsesion("user", JSON.stringify(data));
            
@@ -119,7 +119,7 @@ const UserAuthform = ({type})=>{
         <Navigate to="/" />
         : 
         <Pageanimation keyValue={type}>
-                <section className="h-cover flex items-center justify-center   ">
+                <section className="h-cover flex items-center justify-center bg-amber-200 mt-20 ">
         <Toaster />
         <form ref={ type == "sign-up" ? signupform : signinform} className=" w-[80%] max-w-[400px] ">
             <h1 className="text-4xl font-gelasio capitalize text-center mb-24 ">

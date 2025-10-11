@@ -5,30 +5,31 @@ import toast, { Toaster } from "react-hot-toast";
 import { Audio, Bars, RotatingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 export const Home = () => {
-
   let {
     userAuth,
     userAuth: { fullname, access_token, profile_img, username },
   } = useContext(UserContext);
 
   return (
-
     <div className=" ">
-      {access_token ? 
-      <div className="grid  grid-cols-3  divide-x h-screen divide-gray ">
-        <div className="col-span-2 px-[10vw]   ">
-          <div className="navbar   pl-0 pb-[0vw] border-b-1  border-gray border-1 top-20">
-            <div className="flex items-center gap-20  text-gray-600  text-md  font-medium">
-              <h2 className="hover:text-black">For you</h2>
-              <h3 className="hover:text-black">Featured</h3>
-            </div>  
-          </div>
+      {access_token ? (
+        <div className="grid grid-cols-1 md:grid-cols-7  divide-x h-screen divide-gray ">
+          <div className="md:col-span-5    pl-[10vw] pr-[7vw]  ">
+            <div className="navbar sticky   pl-0 pb-[0vw] border-b-1  border-gray top-20 ">
+              <div className="flex items-center gap-20  text-gray-600  text-md  font-medium ">
+                <h2 className="hover:text-black">For you</h2>
+                <h3 className="hover:text-black">Featured</h3>
+              </div>
+            </div>
 
-          <DisplayBlog></DisplayBlog>
+            <DisplayBlog></DisplayBlog>
+          </div>
+          <div className="cols-span-1 pr-[5vw] ">secondcol</div>
         </div>
-        <div className="cols-span-1 pr-[5vw] ">secondcol</div>
-      </div>
-      : ""}v
+      ) : (
+        ""
+      )}
+      v
     </div>
   );
 };
@@ -36,9 +37,9 @@ export const Home = () => {
 const DisplayBlog = () => {
   const [data, setData] = useState([]);
   const [isloading, setIsLoading] = useState(true);
-  const navigate  = useNavigate(); 
+  const navigate = useNavigate();
   const [color, setColor] = useState("#ffffff");
-  
+
   let {
     userAuth,
     userAuth: { fullname, access_token, profile_img, username },
@@ -47,12 +48,16 @@ const DisplayBlog = () => {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("https://kalam-backend-l56d.onrender.com/get-blogs");
+        const res = await axios.get("http://localhost:3000/get-blogs", {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        });
 
         if (!res.data) {
           return "err";
         }
-
+        console.log(res.data);
         setData(res.data);
         setIsLoading(false);
       } catch (err) {
@@ -61,17 +66,17 @@ const DisplayBlog = () => {
     };
 
     fetchdata();
+   
   }, []);
 
-  const handleBlogClick = (index)=>{
-    let blogId = data.blogs[index].blog_id ; 
-    navigate("/blog/"+blogId) ; 
-  }
+  const handleBlogClick = (index) => {
+    let blogId = data.blogs[index].blog_id;
+    navigate("/blog/" + blogId);
+  };
   const override = {
     display: "block",
     margin: "14px auto",
   };
-
 
   if (isloading) {
     return (
@@ -91,37 +96,58 @@ const DisplayBlog = () => {
     );
   }
 
-  
+  const getDate = (blog)=>{
+    // if(!blog || !blog.publishedAt) return "" ; 
+    const dateObj = new Date(blog.publishedAt ) ; 
 
+    const year = dateObj.getFullYear(); 
+    const month = dateObj.toLocaleString('default' , {month : "short"}); 
+
+    const day = dateObj.getDate(); 
+
+    return `${month} ${day}, ${year}` ; 
+  }
   return (
     <div className="py-20 ">
       {data.blogs.map((blog, index) => (
         <div key={index}>
-        <div className="grid grid-cols-3  py-10 cursor-pointer" onClick={()=>handleBlogClick(index)} >
-          <div className="col-span-2 pr-10  space-y-6 ">
-            <div className="flex items-center gap-4  w-full text-neutral-600 hover:text-black">
+          <div  className="py-10  space-y-4">
+            <div className=" flex items-center gap-2  w-full text-neutral-600 hover:text-black">
               <div className="h-6 w-6 rounded-full overflow-hidden border border-neutral-400 ">
                 <img src={blog.author.profile_img} className=""></img>
               </div>
-              <div onClick={()=>console.log("dfdsf")}>{blog.author.fullname}</div>
+              <div onClick={() => console.log("dfdsf")}>
+                by <span className="text-black">{blog.author.fullname}</span>
+              </div>
             </div>
-           
-            <h1 className="text-3xl font-bold  tracking-tight ">{blog.title}</h1>
+            <div
+              className="   grid grid-cols-3   cursor-pointer"
+              onClick={() => handleBlogClick(index)}
+            >
+              <div className="col-span-2 pr-10  space-y-2 ">
+                <h1 className="text-3xl font-bold  tracking-tight ">
+                  {blog.title}
+                </h1>
 
-            <p className="text-lg font-normal tracking-wide ">{blog.des} </p>
-          </div>
-          <div className="col-span-1 flex flex-col items-center justify-center ">
-            
-            <img src={blog.banner} className="border-1 h-30 w-45 object-cover "></img>
+                <p className="text-lg font-normal tracking-wide ">
+                  {blog.des}{" "}
+                </p>
 
-           
+              </div>
+              <div className=" flex flex-col items-center justify-center  ">
+                <img
+                  src={blog.banner}
+                  className="border-1 h-30 w-50 object-cover "
+                ></img>
+              </div>
+            </div>
+            <div className="mt-5 ">
+                  <p className="text-md">{getDate(blog)}</p>
+                </div> 
           </div>
-         </div>
-       
-        <hr className="border-gray border-1 "></hr>
+          <hr className="border-gray "></hr>
         </div>
       ))}
     </div>
   );
 };
-

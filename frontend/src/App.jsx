@@ -51,8 +51,7 @@ const Layout = ()=>{
     <div className=''>
         <Navbar/>
         <Outlet/>
-        
-     
+      
     </div>
   )
 }
