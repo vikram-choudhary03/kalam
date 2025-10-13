@@ -77,7 +77,7 @@ const UserAuthform = ({type})=>{
 
     const tosenduserformdata = (serverRoute, formData)=>{
 
-        axios.post("http://localhost:3000"+serverRoute , formData)
+        axios.post("https://kalam-backend-l56d.onrender.com"+serverRoute , formData)
         .then(({data})=>{
            storeInsesion("user", JSON.stringify(data));
            
