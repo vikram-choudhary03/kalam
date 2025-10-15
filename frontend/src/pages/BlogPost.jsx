@@ -3,9 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { data, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { UserContext } from "../App";
+import { GetDate } from "./Home";
+import { BlogReactionBar } from "../components/BlogReactionBar";
 
 export const BlogPost = () => {
-  const [blogData, setBlogData] = useState({});
+  const [blog, setBlog] = useState({});
   const [isloading, setIsLoading] = useState(true);
   const { blogId } = useParams();
 
@@ -22,10 +24,11 @@ export const BlogPost = () => {
         }
       })
       .then((res) => {
-        setBlogData(res.data);
+        setBlog(res.data.blog);
         setIsLoading(false);
        
-        console.log(res);
+       
+        
       })
       .catch((err) => {
         console.log(err.message);
@@ -37,33 +40,38 @@ export const BlogPost = () => {
     return <div className="mt-20 mx-auto max-w-[900px]">Loading blog...</div>;
   }
 
-  console.log(blogData);
+  
   return (
     <div className="mt-20 ">
       <div className=" mx-auto  max-w-[900px] px-4 space-y-4 ">
         <h1 className="  w-full text-6xl font-bold  break-normal  py-6  overflow-hidden ">
-          {blogData.blog.title}
+          {blog.title}
         </h1>
 
         <div className="flex gap-4  items-center">
-          <div className="h-10 w-10 rounded-full overflow-hidden border border-neutral-400 ">
+          <div className="  h-6 w-6 md:h-10 md:w-10 rounded-full overflow-hidden border border-neutral-400 ">
             <img
-              src={blogData.blog.author.profile_img}
-              className="object-fit"
+              src={blog.author.profile_img}
+              className="object-fit text-sm"
             ></img>
           </div>
-          <div className="text-md text-neutral-700 hover:text-black">
-            {blogData.blog.author.fullname}
+          <div className="text-sm text-neutral-700 hover:text-black md:text-base ">
+            {blog.author.fullname}
           </div>
-          <button className="border  rounded-full px-3 py-1 bg-white border-neutral-400 shadow-md text-neutral-700 hover:text-black ">
+          <button className=" border  border-black rounded-full px-3 py-1 bg-white text-neutral-700 hover:text-black  text-sm md:text-base">
             follow
           </button>
+          <div></div>
+          <div><GetDate blog={blog} /></div>
         </div>
         <hr className="text-gray"></hr>
+        <BlogReactionBar blog={blog} blogId = {blogId}/>
+        <hr className="text-gray"></hr>
+        <div><img src={blog.banner}/></div>
         <div>
-          {blogData.blog.content.blocks.map((block, index) => (
-            <div className="mb-4">
-              <BlockRenderer block={block} index={index}></BlockRenderer>
+          {blog.content.blocks.map((block, index) => (
+            <div className="mb-4"  index={index} >
+              <BlockRenderer block={block} ></BlockRenderer>
             </div>
           ))}
         </div>
@@ -294,3 +302,6 @@ const ListCheckListMapRender = ({ data }) => {
     </ul>
   );
 };
+
+
+

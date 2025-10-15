@@ -322,3 +322,30 @@ app.get("/blog/:blogId" ,authMiddleware,  async (req, res) =>{
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
+
+
+
+
+app.post("/post-likes" , authMiddleware , async (req, res)=>{
+
+
+  try {
+
+    const {blogId, count} =  req.body  ; 
+
+    
+    await Blog.updateOne({
+      blog_id : blogId
+    } , {
+      $set : {
+        'activity.total_likes' : count 
+      }
+    })
+
+    res.status(200).json({msg : "likes updated"})
+
+  }catch(err){
+    return res.status(400).json({err : err.message})
+  }
+
+})

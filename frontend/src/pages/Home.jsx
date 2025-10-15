@@ -24,7 +24,7 @@ export const Home = () => {
 
             <DisplayBlog></DisplayBlog>
           </div>
-          <div className="cols-span-1 pr-[5vw] ">secondcol</div>
+          <div className="cols-span-1 pr-[5vw] hidden">secondcol</div>
         </div>
       ) : (
         ""
@@ -96,17 +96,7 @@ const DisplayBlog = () => {
     );
   }
 
-  const getDate = (blog)=>{
-    // if(!blog || !blog.publishedAt) return "" ; 
-    const dateObj = new Date(blog.publishedAt ) ; 
-
-    const year = dateObj.getFullYear(); 
-    const month = dateObj.toLocaleString('default' , {month : "short"}); 
-
-    const day = dateObj.getDate(); 
-
-    return `${month} ${day}, ${year}` ; 
-  }
+   
   return (
     <div className="py-20 ">
       {data.blogs.map((blog, index) => (
@@ -121,29 +111,29 @@ const DisplayBlog = () => {
               </div>
             </div>
             <div
-              className="   grid grid-cols-3   cursor-pointer"
+              className="   grid  grid-cols-3  md:grid-cols-3   cursor-pointer "
               onClick={() => handleBlogClick(index)}
             >
-              <div className="col-span-2 pr-10  space-y-2 ">
+              <div className="col-span-2 md:col-span-2 pr-5 space-y-2 ">
                 <h1 className="text-3xl font-bold  tracking-tight ">
                   {blog.title}
                 </h1>
 
-                <p className="text-lg font-normal tracking-wide ">
+                <p className="text-lg font-normal tracking-wide  ">
                   {blog.des}{" "}
                 </p>
 
               </div>
-              <div className=" flex flex-col items-center justify-center  ">
+              <div className=" md:mx-auto  ">
                 <img
                   src={blog.banner}
-                  className="border-1 h-30 w-50 object-cover "
+                  className="border-1 w-30 h-20 md:w-50 md:h-30    "
                 ></img>
               </div>
             </div>
             <div className="mt-5 ">
-                  <p className="text-md">{getDate(blog)}</p>
-                </div> 
+                  <GetDate blog ={blog} />
+            </div> 
           </div>
           <hr className="border-gray "></hr>
         </div>
@@ -151,3 +141,23 @@ const DisplayBlog = () => {
     </div>
   );
 };
+
+export const GetDate = ({blog, className})=>{
+
+  const extractDate = (blog)=>{
+    // if(!blog || !blog.publishedAt) return "" ; 
+    const dateObj = new Date(blog.publishedAt ) ; 
+
+    const year = dateObj.getFullYear(); 
+    const month = dateObj.toLocaleString('default' , {month : "short"}); 
+
+    const day = dateObj.getDate(); 
+
+    return `${month} ${day}, ${year}` ; 
+  }
+  return (
+    <div className="text-sm md:text-base">
+      {extractDate(blog)}
+    </div>
+  )
+}
