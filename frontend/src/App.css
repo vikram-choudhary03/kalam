@@ -93,3 +93,8 @@ h5.ce-header{
 h6.ce-header{
   @apply text-base font-semibold
 }
+
+
+.home-div{
+  scrollbar-width: none;
+}

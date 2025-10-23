@@ -13,18 +13,23 @@ export const Home = () => {
   return (
     <div className=" ">
       {access_token ? (
-        <div className="grid grid-cols-1 md:grid-cols-7  divide-x h-screen divide-gray ">
-          <div className="md:col-span-5    pl-[10vw] pr-[7vw]  ">
-            <div className="navbar sticky   pl-0 pb-[0vw] border-b-1  border-gray top-20 ">
-              <div className="flex items-center gap-20  text-gray-600  text-md  font-medium ">
+        <div className=" grid grid-cols-1 md:grid-cols-7  divide-x h-screen divide-gray relative top-20 ">
+          <div className="md:col-span-5    pl-[9vw] pr-[9vw] " >
+            <div className="fixed w-220   ">
+            <div className="      z-10   flex border-b gap-12   border-gray  px-[1vw] py-5  h-[80px] items-center bg-white   ">
+              <div className="flex items-center gap-20   text-gray-600  text-md  font-medium   ">
                 <h2 className="hover:text-black">For you</h2>
                 <h3 className="hover:text-black">Featured</h3>
               </div>
             </div>
+            </div>
+            
 
             <DisplayBlog></DisplayBlog>
           </div>
-          <div className="cols-span-1 pr-[5vw] hidden">secondcol</div>
+          <div className="col-span-2 pr-[5vw]  ">
+            <TrendingBlogDisplay/>
+          </div>
         </div>
       ) : (
         ""
@@ -34,6 +39,56 @@ export const Home = () => {
   );
 };
 
+
+const TrendingBlogDisplay = ()=>{
+
+  const [data,setData] = useState([]) ; 
+  const [loading, setLoading] = useState(true) ; 
+  let {
+    userAuth,
+    userAuth: { fullname, access_token, profile_img, username },
+  } = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/get-blogs", {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        });
+t
+        if (!res.data) {
+          return "err";
+        }
+        console.log(res.data);
+        setData(res.data);
+        setLoading(!loading) ; 
+       
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchdata();
+   
+  }, []);
+  console.log(data + " "+ "first page"); 
+  return (
+    <div className="pl-10">
+      
+      <h2 className="text-lg font-medium tracking-wide">Trending blogs</h2>
+
+      {!loading ? 
+       <div>
+        d
+       </div>
+      : null}
+     
+    </div>
+
+  )
+}
 const DisplayBlog = () => {
   const [data, setData] = useState([]);
   const [isloading, setIsLoading] = useState(true);
@@ -111,7 +166,7 @@ const DisplayBlog = () => {
               </div>
             </div>
             <div
-              className="   grid  grid-cols-3  md:grid-cols-3   cursor-pointer "
+              className="   grid  grid-cols-3  md:grid-cols-3   cursor-pointer"
               onClick={() => handleBlogClick(index)}
             >
               <div className="col-span-2 md:col-span-2 pr-5 space-y-2 ">
@@ -124,10 +179,10 @@ const DisplayBlog = () => {
                 </p>
 
               </div>
-              <div className=" md:mx-auto  ">
+              <div className=" flex justify-end    ">
                 <img
                   src={blog.banner}
-                  className="border-1 w-30 h-20 md:w-50 md:h-30    "
+                  className="border-1 w-30 h-20 md:w-50 md:h-34     "
                 ></img>
               </div>
             </div>

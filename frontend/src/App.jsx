@@ -48,9 +48,9 @@ function App() {
 
 const Layout = ()=>{
   return (
-    <div className=''>
+    <div className='relative'>
         <Navbar/>
-        <Outlet/>
+        <Outlet />
       
     </div>
   )

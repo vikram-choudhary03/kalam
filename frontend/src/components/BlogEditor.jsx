@@ -155,7 +155,7 @@ const BlogEditor = () => {
       <Toaster />
       <Pageanimation>
         ;
-        <section className="px-[5vw] ">
+        <section className="px-[5vw] mt-20 ">
           <div className=" mx-auto   max-w-[900px]  w-full  ">
             <div className="relative aspect-video hover:opacity-80 border-4 border-gray bg-white ">
               <label htmlFor="uploadBanner">
