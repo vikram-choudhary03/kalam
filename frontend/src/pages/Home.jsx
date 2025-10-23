@@ -52,7 +52,7 @@ const TrendingBlogDisplay = ()=>{
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/get-blogs", {
+        const res = await axios.get("https://kalam-backend-l56d.onrender.com/get-blogs", {
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
@@ -103,7 +103,7 @@ const DisplayBlog = () => {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/get-blogs", {
+        const res = await axios.get("https://kalam-backend-l56d.onrender.com/get-blogs", {
           headers: {
             Authorization: `Bearer ${access_token}`,
           },

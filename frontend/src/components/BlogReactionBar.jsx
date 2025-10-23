@@ -37,7 +37,7 @@ export const Upvote = ({ blog, blogId }) => {
     }
 
 
-     axios.post("http://localhost:3000/post-likes" , {
+     axios.post("https://kalam-backend-l56d.onrender.com/post-likes" , {
       count, 
       blogId
     }, {

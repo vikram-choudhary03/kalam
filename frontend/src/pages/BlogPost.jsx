@@ -18,7 +18,7 @@ export const BlogPost = () => {
   
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/blog/${blogId}` , {
+      .get(`https://kalam-backend-l56d.onrender.com/blog/${blogId}` , {
         headers : {
           Authorization : `Bearer ${access_token}`
         }
